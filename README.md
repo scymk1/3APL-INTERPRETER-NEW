@@ -1,2 +1,3 @@
 # 3APL-INTERPRETER-NEW
-3APL-INTERPRETER-NEW
+
+The project aims to develop an interpreter for the 3APL language using ANTLR4 and the MVC software pattern. The interpreter successfully supports all the features proposed for the 3APL language, and the example section demonstrates how to use and run the interpreter. Therefore, the project has successfully achieved its basic objectives. The interpreter is also quite comprehensive in many ways and can be used to build multi-agent systems while running multiple agents simultaneously. The interpreter can also display the agents’ operation logs, which is convenient for users to test and develop 3APL agents.
