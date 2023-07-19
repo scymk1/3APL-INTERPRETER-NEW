@@ -1,0 +1,63 @@
+
+PROGRAM "cleaner"
+
+CAPABILITIES {
+    {positionAt(self,X,Y) AND positionAt(rubbish,X,Y) AND NOT occupied()}
+    Pick(X,Y)
+    {NOT positionAt(rubbish,X,Y), occupied(), cleaned(X, Y)},
+    {positionAt(self,X0,Y0)}
+    MoveTo(X1,Y1)
+    {NOT positionAt(self,X0,Y0), positionAt(self,X1,Y1)},
+    {positionAt(self,X,Y) AND positionAt(bin,X,Y) AND occupied()}
+    Throw()
+    {NOT occupied()}
+}
+
+BELIEFBASE {
+    me(cleaner).
+    you(receiver).
+    
+    positionAt(self,0,0).
+    positionAt(rubbish,1,2).
+    positionAt(rubbish,0,4).
+    positionAt(bin,5,6).
+    }
+
+GOALBASE {
+    clean(),
+    inform()
+    }
+
+PLANBASE {
+}
+
+PG-RULES {
+    clean() <- positionAt(rubbish, X, Y) AND positionAt(bin, Xb, Yb) |
+    {
+        WHILE positionAt(rubbish,X,Y) DO {
+            MoveTo(X,Y);
+            Pick(X,Y);
+            MoveTo(Xb, Yb);
+            Throw();
+            }
+    },
+    inform() <- cleaned(X, Y) AND you(YOU) |
+    {SEND(YOU, inform, clean(YOU) )}
+    }
+
+PR-RULES {
+       WHILE positionAt(rubbish,X,Y) DO {
+           MoveTo(X,Y);
+           Pick(X,Y);
+           MoveTo(Xb, Yb);
+           Throw();
+       }
+   <- received(CUSTOM, inform, description_terminate) |
+   {
+        IF occupied() THEN
+        {
+            MoveTo(Xb,Yb);
+            Throw();
+        }
+   }
+   }

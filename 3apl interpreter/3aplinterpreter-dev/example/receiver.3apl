@@ -1,0 +1,24 @@
+PROGRAM "receiver"
+
+CAPABILITIES {
+}
+
+BELIEFBASE {
+me(receiver).
+you(cleaner).
+}
+
+GOALBASE {
+inform()
+}
+
+PLANBASE {
+}
+
+PG-RULES {
+inform() <- me(Me) AND received(You, inform, clean(Me)) AND NOT sent(You,inform,thanks(You)) |
+                  {SEND(You, inform, thanks(You) )}
+}
+ 
+PR-RULES{
+}

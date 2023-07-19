@@ -1,0 +1,26 @@
+PROGRAM "sally"
+
+CAPABILITIES {
+}
+
+BELIEFBASE {
+me(sally).
+you(harry).
+}
+
+GOALBASE {
+hello()
+}
+
+PLANBASE {
+}
+
+PG-RULES {
+hello() <- you(You) AND NOT sent(You,inform,hello(You)) | {SEND(You, inform, hello(You) )},
+
+        <- me(Me) AND received(You, inform, hello(Me)) AND NOT sent(You,inform,thanks(You)) |
+                  {SEND(You, inform, thanks(You) )}
+}
+ 
+PR-RULES{
+}
